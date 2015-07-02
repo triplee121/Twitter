@@ -8,7 +8,12 @@
       <groupId>com.twitter</groupId>
       <artifactId>hbc-core</artifactId> <!-- or hbc-twitter4j -->
       <version>2.2.0</version> <!-- or whatever the latest version is -->
-    </dependency>
+    </dependency>  
+	  <dependency>
+		  <groupId>com.vdurmont</groupId>
+		  <artifactId>emoji-java</artifactId>
+	  <version>1.1.1</version>
+</dependency>
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
