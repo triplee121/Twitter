@@ -64,15 +64,19 @@ public class LiveTwitterFeed {
 			String[] tweetArray = msg.split("\"text\":\"");
 			tweetArray = tweetArray[1].split("\"");
 			String tweet = tweetArray[0];
+			
 			if(msg.contains("{\"url\":\"")){
 				countOfTweetsWithURL++;
-				Pattern pattern = Pattern.compile("\"urls\":\\[\\{\"url\":\"(.*?)\"");
-				Matcher matcher = pattern.matcher(msg);
-				if (matcher.find()){
-					String url = matcher.group(1).replaceAll("\\/*", "");
-					int count = topURLs.containsKey(url) ? topURLs.get(url) : 0;
-					topURLs.put(url, count + 1);
+				String expandedURL = msg.split("expanded_url\":\"")[1];
+				expandedURL = expandedURL.split(",")[0];
+				expandedURL = expandedURL.replace("\\/", "/");
+				expandedURL = expandedURL.split("//")[1];
+				expandedURL = expandedURL.split("/")[0];
+				if(expandedURL.contains("\"")){
+					expandedURL = expandedURL.replace("\"", "");
 				}
+				int count = topURLs.containsKey(expandedURL) ? topURLs.get(expandedURL) : 0;
+				topURLs.put(expandedURL, count + 1);
 			}
 			
 			//find tweets with twitter images
@@ -119,7 +123,7 @@ public class LiveTwitterFeed {
 			}			
 		}
 	    long endTime = System.currentTimeMillis();
-	    if(endTime - startTime > 60000/*600000*/){
+	    if(endTime - startTime > /*60000*/600000){
 	    	System.out.printf("Total number of tweets deleted and created: %d\n", client.getStatsTracker().getNumMessages());
 	    	getStats(totalNumberOfTweetsReceived, totalNumberOfTweetsReceivedInTenMinutes, countOfTweetsWithURL, countOfTweetsWithImage,
 	    			topHashtags, topURLs, countOfTweetsWithEmojis, topEmojis);
