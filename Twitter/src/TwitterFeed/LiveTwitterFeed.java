@@ -57,7 +57,7 @@ public class LiveTwitterFeed {
     long startTime = System.currentTimeMillis();
     while (!client.isDone()) {
     	String msg = queue.poll(5, TimeUnit.SECONDS);
-    	System.out.println(msg);
+//    	System.out.println(msg);
 		if(msg.contains("created_at")){
 			totalNumberOfTweetsReceived++;
 			totalNumberOfTweetsReceivedInTenMinutes++;
@@ -76,10 +76,10 @@ public class LiveTwitterFeed {
 			}
 			
 			//find tweets with twitter images
-			if(msg.contains("\"media_url\"")){
+			if(msg.contains("pic.twitter.com")){
 				countOfTweetsWithImage++;
 			}
-			if(msg.contains("instagram.com/p/")){
+			if(msg.contains("instagram.com\\/p\\/")){
 				countOfTweetsWithImage++;
 			}
 
